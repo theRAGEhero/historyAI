@@ -27,6 +27,7 @@
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+body {
     margin: 0;
     font-family: Arial, sans-serif;
     display: flex;
