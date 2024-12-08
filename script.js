@@ -20,14 +20,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             // Fetch the Wikipedia article content
-            const response = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${pageTitle}`);
+            const response = await fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${pageTitle}&prop=extracts&explaintext&format=json&origin=*`);
             if (!response.ok) throw new Error("Failed to fetch Wikipedia article");
 
             const data = await response.json();
+            const page = Object.values(data.query.pages)[0]; // Extract the first page object
             wikiContent.innerHTML = `
-                <h2>${data.title}</h2>
-                <p>${data.extract}</p>
-                <a href="${data.content_urls.desktop.page}" target="_blank">Read more on Wikipedia</a>
+                <h2>${page.title}</h2>
+                <p>${page.extract}</p>
+                <a href="https://en.wikipedia.org/wiki/${page.title}" target="_blank">Read more on Wikipedia</a>
             `;
         } catch (error) {
             wikiContent.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
