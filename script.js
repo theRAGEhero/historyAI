@@ -6,25 +6,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const yearIndicator = document.getElementById("year-indicator");
 
     const updateMapYear = (year) => {
-        const url = new URL(mapIframe.src);
-        const params = new URLSearchParams(url.search);
-
-        // Extract current map position and zoom level
+        // Extract current map position and zoom level from iframe
         const hashParams = mapIframe.src.split("#")[1].split("&");
-        let mapPosition = "6/43.021/7.471"; // Default position
+        let mapZoom = "6"; // Default zoom level
+        let mapLat = "43.021"; // Default latitude
+        let mapLon = "7.471"; // Default longitude
+
         hashParams.forEach(param => {
             if (param.startsWith("map=")) {
-                mapPosition = param.split("=")[1];
+                const mapValues = param.split("=")[1].split("/");
+                mapZoom = mapValues[0];
+                mapLat = mapValues[1];
+                mapLon = mapValues[2];
             }
         });
 
-        // Update the date parameter
-        params.set("date", `${year}-12-08`);
-        params.set("layers", "O"); // Ensure the correct layer is applied
-        url.search = params.toString();
-
         // Update the iframe src with the saved position and new date
-        mapIframe.src = `https://embed.openhistoricalmap.org/#map=${mapPosition}&layers=O&date=${year}-12-08`;
+        mapIframe.src = `https://embed.openhistoricalmap.org/#map=${mapZoom}/${mapLat}/${mapLon}&layers=O&date=${year}-12-08`;
 
         // Update the year indicator
         yearIndicator.textContent = `Year: ${year}`;
