@@ -26,7 +26,7 @@ body {
 }
 
 .sidebar {
-    flex: 1;
+    flex: 2; /* Adjusted to take up half the screen */
     padding: 10px;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
