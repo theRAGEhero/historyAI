@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const url = new URL(mapIframe.src);
         const params = new URLSearchParams(url.search);
         params.set("date", `${year}-12-08`);
+        params.set("layers", "O"); // Ensure the correct layer is applied
         url.search = params.toString();
         mapIframe.src = url.toString();
     };
