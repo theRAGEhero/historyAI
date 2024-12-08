@@ -120,11 +120,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     yearForm.addEventListener("submit", (event) => {
         event.preventDefault();
-        const yearRegex = /^\d{4}$/; // Regex for a 4-digit year
-        const newYear = yearInput.value.trim();
+        const newYear = parseInt(yearInput.value.trim(), 10);
 
-        if (!yearRegex.test(newYear)) {
-            alert("Please enter a valid 4-digit year.");
+        if (isNaN(newYear) || newYear < -10000 || newYear > 2050) {
+            alert("Please enter a valid year between -10000 and 2050.");
             return;
         }
 
