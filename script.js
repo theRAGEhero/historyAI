@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("wiki-form");
     const wikiContent = document.getElementById("wiki-content");
 
-    // Handle Wikipedia form submission
+    form.addEventListener("submit", async (event) => {
         event.preventDefault();
         const wikiLink = document.getElementById("wiki-link").value.trim();
 
