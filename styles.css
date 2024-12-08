@@ -42,14 +42,23 @@ body {
 
 .container {
     display: flex;
-    flex: 1; /* Allow the container to take up available space */
-    flex-direction: row; /* Map and sidebar side by side */
+    flex: 1;
+    flex-direction: row;
+    position: relative; /* For slider positioning */
+}
+
+.resizable-container {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    overflow: hidden;
 }
 
 #map-container {
-    flex: 2; /* Map takes up more space */
+    flex: 1;
     height: 100%;
     border: 1px solid black;
+    overflow: hidden;
 }
 
 #map-container iframe {
@@ -59,10 +68,18 @@ body {
 }
 
 .sidebar {
-    flex: 1; /* Sidebar takes up less space */
+    flex: 1;
     padding: 10px;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
+}
+
+.slider {
+    width: 5px;
+    background-color: #ccc;
+    cursor: col-resize;
+    position: relative;
+    z-index: 1;
 }
 
 .bottombar {

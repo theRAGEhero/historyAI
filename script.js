@@ -37,6 +37,38 @@ document.addEventListener("DOMContentLoaded", () => {
         updateMapYear(newYear);
     };
 
+    // Slider functionality
+    const slider = document.getElementById("slider");
+    const mapContainer = document.getElementById("map-container");
+    const sidebar = document.querySelector(".sidebar");
+
+    let isDragging = false;
+
+    slider.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        document.body.style.cursor = "col-resize";
+    });
+
+    document.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
+
+        const containerRect = document.querySelector(".resizable-container").getBoundingClientRect();
+        const offsetX = e.clientX - containerRect.left;
+
+        const mapWidthPercentage = (offsetX / containerRect.width) * 100;
+        const sidebarWidthPercentage = 100 - mapWidthPercentage;
+
+        mapContainer.style.flex = `${mapWidthPercentage}`;
+        sidebar.style.flex = `${sidebarWidthPercentage}`;
+    });
+
+    document.addEventListener("mouseup", () => {
+        if (isDragging) {
+            isDragging = false;
+            document.body.style.cursor = "default";
+        }
+    });
+
     document.getElementById("year-minus-100").addEventListener("click", () => adjustYear(-100));
     document.getElementById("year-minus-10").addEventListener("click", () => adjustYear(-10));
     document.getElementById("year-plus-10").addEventListener("click", () => adjustYear(10));
