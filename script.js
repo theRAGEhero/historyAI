@@ -1,16 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Initialize the map
-    const map = L.map('map').setView([0, 0], 2); // Default view
-    L.tileLayer('https://tile.openhistoricalmap.org/ohm/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '© OpenHistoricalMap contributors'
-    }).addTo(map);
 
     // Handle Wikipedia form submission
     const form = document.getElementById("wiki-form");
     const wikiContent = document.getElementById("wiki-content");
 
-    form.addEventListener("submit", async (event) => {
+    // Handle Wikipedia form submission
         event.preventDefault();
         const wikiLink = document.getElementById("wiki-link").value.trim();
 
