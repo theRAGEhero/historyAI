@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
         url.search = params.toString();
 
         // Update the iframe src with the saved position and new date
-        mapIframe.src = `https://embed.openhistoricalmap.org/#map=${mapPosition}&layers=O&date=${year}-12-08&daterange=1824-01-01,2024-12-31&bbox=-6.921386718750001,37.16031654673677,21.862792968750004,48.37084770238366`;
+        mapIframe.src = `https://embed.openhistoricalmap.org/#map=${mapPosition}&layers=O&date=${year}-12-08`;
 
         // Update the year indicator
         yearIndicator.textContent = `Year: ${year}`;
