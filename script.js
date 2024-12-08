@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
         params.set("date", `${year}-12-08`);
         params.set("layers", "O"); // Ensure the correct layer is applied
         url.search = params.toString();
-        mapIframe.src = url.toString();
+        mapIframe.src = `https://embed.openhistoricalmap.org/#map=6/43.021/7.471&layers=O&date=${year}-12-08&daterange=1824-01-01,2024-12-31&bbox=-6.921386718750001,37.16031654673677,21.862792968750004,48.37084770238366`;
 
         // Update the year indicator
         yearIndicator.textContent = `Year: ${year}`;
