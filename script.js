@@ -120,8 +120,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     yearForm.addEventListener("submit", (event) => {
         event.preventDefault();
-        const newYear = parseInt(yearInput.value, 10);
-        updateMapYear(newYear);
+        const yearRegex = /^\d{4}$/; // Regex for a 4-digit year
+        const newYear = yearInput.value.trim();
+
+        if (!yearRegex.test(newYear)) {
+            alert("Please enter a valid 4-digit year.");
+            return;
+        }
+
+        updateMapYear(parseInt(newYear, 10));
     });
 
     // Handle Wikipedia form submission
@@ -129,6 +136,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const wikiContent = document.getElementById("wiki-content");
 
     form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const wikiRegex = /^https?:\/\/(www\.)?wikipedia\.org\/wiki\/.+$/; // Regex for Wikipedia links
+        const wikiLink = document.getElementById("wiki-link").value.trim();
+
+        if (!wikiRegex.test(wikiLink)) {
+            alert("Please enter a valid Wikipedia link.");
+            return;
+        }
         event.preventDefault();
         const wikiLink = document.getElementById("wiki-link").value.trim();
 
