@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const updateMapYear = (year) => {
         // Extract current map position and zoom level from iframe
         const hashParams = mapIframe.src.split("#")[1].split("&");
-        let mapZoom = "4"; // Default zoom level
+        let mapZoom = "0"; // Default zoom level
         let mapLat = "43.021"; // Default latitude
         let mapLon = "7.471"; // Default longitude
 
