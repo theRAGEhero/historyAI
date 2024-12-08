@@ -1,4 +1,33 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const yearInput = document.getElementById("year-input");
+    const yearForm = document.getElementById("year-form");
+    const mapIframe = document.querySelector("#map-container iframe");
+
+    const updateMapYear = (year) => {
+        const url = new URL(mapIframe.src);
+        const params = new URLSearchParams(url.search);
+        params.set("date", `${year}-12-08`);
+        url.search = params.toString();
+        mapIframe.src = url.toString();
+    };
+
+    const adjustYear = (delta) => {
+        const currentYear = parseInt(yearInput.value, 10);
+        const newYear = currentYear + delta;
+        yearInput.value = newYear;
+        updateMapYear(newYear);
+    };
+
+    document.getElementById("year-minus-100").addEventListener("click", () => adjustYear(-100));
+    document.getElementById("year-minus-10").addEventListener("click", () => adjustYear(-10));
+    document.getElementById("year-plus-10").addEventListener("click", () => adjustYear(10));
+    document.getElementById("year-plus-100").addEventListener("click", () => adjustYear(100));
+
+    yearForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const newYear = parseInt(yearInput.value, 10);
+        updateMapYear(newYear);
+    });
 
     // Handle Wikipedia form submission
     const form = document.getElementById("wiki-form");
