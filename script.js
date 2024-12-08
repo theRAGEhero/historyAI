@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
         const wikiLink = document.getElementById("wiki-link").value.trim();
-        wikiContent.scrollIntoView({ behavior: "smooth" });
 
         // Extract the Wikipedia page title from the link
         const pageTitle = wikiLink.split("/").pop();
