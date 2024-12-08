@@ -49,6 +49,52 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.style.cursor = "col-resize";
     });
 
+    // Add hover functionality for country names
+    let hoverTimeout;
+
+    document.addEventListener("mouseover", (event) => {
+        const target = event.target;
+
+        // Check if the hovered element is a country name
+        if (target.tagName === "SPAN" && target.dataset.country) {
+            hoverTimeout = setTimeout(async () => {
+                const countryName = target.dataset.country;
+
+                try {
+                    // Fetch coordinates from OpenStreetMap
+                    const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${countryName}`);
+                    if (!response.ok) throw new Error("Failed to fetch coordinates");
+
+                    const data = await response.json();
+                    if (data.length > 0) {
+                        const { lat, lon } = data[0];
+
+                        // Update the map iframe with the new coordinates
+                        const url = new URL(mapIframe.src);
+                        const hashParams = url.hash.split("&");
+                        let mapZoom = "6"; // Default zoom level
+                        hashParams.forEach(param => {
+                            if (param.startsWith("map=")) {
+                                mapZoom = param.split("=")[1].split("/")[0];
+                            }
+                        });
+
+                        mapIframe.src = `https://embed.openhistoricalmap.org/#map=${mapZoom}/${lat}/${lon}&layers=O`;
+                    }
+                } catch (error) {
+                    console.error("Error fetching coordinates:", error);
+                }
+            }, 500); // Trigger after 0.5 seconds
+        }
+    });
+
+    document.addEventListener("mouseout", (event) => {
+        if (hoverTimeout) {
+            clearTimeout(hoverTimeout);
+            hoverTimeout = null;
+        }
+    });
+
     document.addEventListener("mousemove", (e) => {
         if (!isDragging) return;
 
@@ -100,7 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const page = Object.values(data.query.pages)[0]; // Extract the first page object
             wikiContent.innerHTML = `
                 <h2>${page.title}</h2>
-                <p>${page.extract}</p>
+                <p>${page.extract.replace(/\b([A-Z][a-z]+)\b/g, '<span data-country="$1">$1</span>')}</p>
                 <a href="https://en.wikipedia.org/wiki/${page.title}" target="_blank">Read more on Wikipedia</a>
             `;
         } catch (error) {
