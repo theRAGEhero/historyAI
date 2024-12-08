@@ -19,8 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const pageTitle = wikiLink.split("/").pop();
 
         try {
-            // Fetch the Wikipedia article content
-            const response = await fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${pageTitle}&prop=extracts&explaintext&format=json&origin=*`);
+            // Fetch the Wikipedia article content using the new API link format
+            const response = await fetch(`https://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=&titles=${pageTitle}&origin=*`);
             if (!response.ok) throw new Error("Failed to fetch Wikipedia article");
 
             const data = await response.json();
