@@ -57,4 +57,9 @@ button:hover {
 
 #wiki-content {
     margin-top: 20px;
+    max-height: 60vh;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
 }
