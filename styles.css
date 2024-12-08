@@ -1,12 +1,15 @@
 .topbar {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start; /* Align buttons to the left */
     padding: 10px;
     background-color: #f1f1f1;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     margin-bottom: 10px;
-}
+    #year-indicator {
+        margin-left: auto; /* Push the year indicator to the right */
+        font-weight: bold;
+    }
 
 .topbar button {
     padding: 8px 12px;

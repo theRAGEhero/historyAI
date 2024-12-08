@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const yearForm = document.getElementById("year-form");
     const mapIframe = document.querySelector("#map-container iframe");
 
+    const yearIndicator = document.getElementById("year-indicator");
+
     const updateMapYear = (year) => {
         const url = new URL(mapIframe.src);
         const params = new URLSearchParams(url.search);
@@ -10,6 +12,9 @@ document.addEventListener("DOMContentLoaded", () => {
         params.set("layers", "O"); // Ensure the correct layer is applied
         url.search = params.toString();
         mapIframe.src = url.toString();
+
+        // Update the year indicator
+        yearIndicator.textContent = `Year: ${year}`;
     };
 
     const adjustYear = (delta) => {
