@@ -8,10 +8,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const updateMapYear = (year) => {
         const url = new URL(mapIframe.src);
         const params = new URLSearchParams(url.search);
+
+        // Extract current map position and zoom level
+        const hashParams = mapIframe.src.split("#")[1].split("&");
+        let mapPosition = "6/43.021/7.471"; // Default position
+        hashParams.forEach(param => {
+            if (param.startsWith("map=")) {
+                mapPosition = param.split("=")[1];
+            }
+        });
+
+        // Update the date parameter
         params.set("date", `${year}-12-08`);
         params.set("layers", "O"); // Ensure the correct layer is applied
         url.search = params.toString();
-        mapIframe.src = `https://embed.openhistoricalmap.org/#map=6/43.021/7.471&layers=O&date=${year}-12-08&daterange=1824-01-01,2024-12-31&bbox=-6.921386718750001,37.16031654673677,21.862792968750004,48.37084770238366`;
+
+        // Update the iframe src with the saved position and new date
+        mapIframe.src = `https://embed.openhistoricalmap.org/#map=${mapPosition}&layers=O&date=${year}-12-08&daterange=1824-01-01,2024-12-31&bbox=-6.921386718750001,37.16031654673677,21.862792968750004,48.37084770238366`;
 
         // Update the year indicator
         yearIndicator.textContent = `Year: ${year}`;
