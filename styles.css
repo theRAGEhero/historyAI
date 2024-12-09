@@ -99,6 +99,11 @@ body {
     padding: 10px;
     background-color: #f1f1f1;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 .topbar button {
@@ -131,6 +136,8 @@ body {
     flex: 1;
     flex-direction: row;
     position: relative; /* For slider positioning */
+    margin-top: 50px; /* Adjust for fixed topbar height */
+    height: calc(100vh - 50px); /* Full height minus topbar */
 }
 
 .resizable-container {
@@ -145,6 +152,8 @@ body {
     height: 100%;
     border: 1px solid black;
     overflow: hidden;
+    position: sticky;
+    top: 0;
 }
 
 #map-container iframe {
@@ -158,6 +167,7 @@ body {
     padding: 10px;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
+    height: 100%;
 }
 
 .slider {
@@ -175,4 +185,18 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        height: calc(100vh - 50px); /* Full height minus topbar */
+    }
+
+    #map-container {
+        height: 50%; /* Top half of the screen */
+    }
+
+    .sidebar {
+        height: 50%; /* Bottom half of the screen */
+    }
 }
