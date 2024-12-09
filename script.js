@@ -141,12 +141,14 @@ document.addEventListener("DOMContentLoaded", () => {
         event.preventDefault();
         const wikiLink = document.getElementById("wiki-link").value.trim();
 
-        // Extract the Wikipedia page title from the link
-        const pageTitle = wikiLink.split("/").pop();
+        // Extract the language code and page title from the link
+        const urlParts = new URL(wikiLink);
+        const langCode = urlParts.hostname.split(".")[0]; // Extract language code from the hostname
+        const pageTitle = urlParts.pathname.split("/").pop();
 
         try {
-            // Fetch the Wikipedia article content using the new API link format
-            const response = await fetch(`https://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=&titles=${pageTitle}&origin=*`);
+            // Fetch the Wikipedia article content using the language-specific API link format
+            const response = await fetch(`https://${langCode}.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=&titles=${pageTitle}&origin=*`);
             if (!response.ok) throw new Error("Failed to fetch Wikipedia article");
 
             const data = await response.json();
