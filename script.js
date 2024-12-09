@@ -200,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
     shareButton.addEventListener("click", () => {
         const wikiLink = document.getElementById("wiki-link").value.trim();
         const shareUrlInput = document.getElementById("share-url");
-        const serverUrl = "http://0.0.0.0:8000/";
+        const serverUrl = "https://globstory.it/";
 
         if (wikiLink) {
             const encodedWikiLink = encodeURIComponent(wikiLink);
