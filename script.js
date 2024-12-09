@@ -191,4 +191,25 @@ document.addEventListener("DOMContentLoaded", () => {
             helpPopup.style.display = "none";
         }
     });
+
+    // Open the Share popup
+    const shareButton = document.getElementById("share-button");
+    const sharePopup = document.getElementById("share-popup");
+    const shareClose = document.getElementById("share-close");
+
+    shareButton.addEventListener("click", () => {
+        sharePopup.style.display = "flex";
+    });
+
+    // Close the Share popup
+    shareClose.addEventListener("click", () => {
+        sharePopup.style.display = "none";
+    });
+
+    // Close the popup when clicking outside the content
+    sharePopup.addEventListener("click", (event) => {
+        if (event.target === sharePopup) {
+            sharePopup.style.display = "none";
+        }
+    });
 });
