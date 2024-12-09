@@ -160,4 +160,24 @@ document.addEventListener("DOMContentLoaded", () => {
             wikiContent.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
         }
     });
+    const helpButton = document.getElementById("help-button");
+    const helpPopup = document.getElementById("help-popup");
+    const helpClose = document.getElementById("help-close");
+
+    // Open the Help popup
+    helpButton.addEventListener("click", () => {
+        helpPopup.style.display = "flex";
+    });
+
+    // Close the Help popup
+    helpClose.addEventListener("click", () => {
+        helpPopup.style.display = "none";
+    });
+
+    // Close the popup when clicking outside the content
+    helpPopup.addEventListener("click", (event) => {
+        if (event.target === helpPopup) {
+            helpPopup.style.display = "none";
+        }
+    });
 });
