@@ -162,6 +162,15 @@ document.addEventListener("DOMContentLoaded", () => {
             wikiContent.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
         }
     });
+
+    // Check for shareable link in the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const sharedWikiLink = urlParams.get("wiki"); // Extract the 'wiki' parameter
+    if (sharedWikiLink) {
+        const decodedWikiLink = decodeURIComponent(sharedWikiLink);
+        document.getElementById("wiki-link").value = decodedWikiLink;
+        form.dispatchEvent(new Event("submit")); // Automatically submit the form
+    }
     const helpButton = document.getElementById("help-button");
     const helpPopup = document.getElementById("help-popup");
     const helpClose = document.getElementById("help-close");
