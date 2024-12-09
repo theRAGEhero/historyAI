@@ -39,9 +39,25 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    max-width: 400px;
+    text-align: left;
+    max-width: 600px;
     width: 90%;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+    .help-popup-content {
+        font-size: 14px;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .help-popup-content {
+        font-size: 12px;
+        padding: 10px;
+    }
 }
 
 .help-close {
