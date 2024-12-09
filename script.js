@@ -120,14 +120,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     yearForm.addEventListener("submit", (event) => {
         event.preventDefault();
-        const newYear = parseInt(yearInput.value.trim(), 10);
-
-        if (isNaN(newYear) || newYear < -10000 || newYear > 2050) {
-            alert("Please enter a valid year between -10000 and 2050.");
-            return;
-        }
-
-        updateMapYear(parseInt(newYear, 10));
+        const newYear = parseInt(yearInput.value, 10);
+        updateMapYear(newYear);
     });
 
     // Handle Wikipedia form submission
@@ -135,14 +129,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const wikiContent = document.getElementById("wiki-content");
 
     form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        const wikiRegex = /^https?:\/\/(www\.)?wikipedia\.org\/wiki\/.+$/; // Regex for Wikipedia links
-        const wikiLink = document.getElementById("wiki-link").value.trim();
-
-        if (!wikiRegex.test(wikiLink)) {
-            alert("Please enter a valid Wikipedia link.");
-            return;
-        }
         event.preventDefault();
         const wikiLink = document.getElementById("wiki-link").value.trim();
 
