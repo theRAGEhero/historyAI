@@ -221,21 +221,25 @@ body {
 @media (max-width: 768px) {
     .container {
         flex-direction: column; /* Stack map and sidebar vertically */
-        height: calc(100vh - 60px); /* Adjusted to ensure space for topbar */
+        height: calc(100vh - 50px); /* Adjusted to ensure space for topbar */
     }
 
     #map-container {
-        height: 50vh; /* Top half of the screen */
+        flex: 1 1 50%; /* Top half of the screen */
+        height: 50%; /* Explicitly set to 50% of the container */
         width: 100%;
         border: 1px solid black;
+        overflow: hidden; /* Prevent content overflow */
     }
 
     #map-container iframe {
         height: 100%; /* Ensure iframe fills its parent */
+        width: 100%; /* Ensure iframe fills its parent */
     }
 
     .sidebar {
-        height: 50vh; /* Bottom half of the screen */
+        flex: 1 1 50%; /* Bottom half of the screen */
+        height: 50%; /* Explicitly set to 50% of the container */
         width: 100%;
         overflow-y: auto; /* Allows scrolling if needed */
     }
