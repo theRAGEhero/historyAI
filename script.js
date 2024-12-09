@@ -162,6 +162,15 @@ document.addEventListener("DOMContentLoaded", () => {
             wikiContent.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
         }
     });
+
+    // Check for shareable link in the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const sharedWikiLink = urlParams.get("wiki"); // Extract the 'wiki' parameter
+    if (sharedWikiLink) {
+        const decodedWikiLink = decodeURIComponent(sharedWikiLink);
+        document.getElementById("wiki-link").value = decodedWikiLink;
+        form.dispatchEvent(new Event("submit")); // Automatically submit the form
+    }
     const helpButton = document.getElementById("help-button");
     const helpPopup = document.getElementById("help-popup");
     const helpClose = document.getElementById("help-close");
@@ -180,6 +189,46 @@ document.addEventListener("DOMContentLoaded", () => {
     helpPopup.addEventListener("click", (event) => {
         if (event.target === helpPopup) {
             helpPopup.style.display = "none";
+        }
+    });
+
+    // Open the Share popup
+    const shareButton = document.getElementById("share-button");
+    const sharePopup = document.getElementById("share-popup");
+    const shareClose = document.getElementById("share-close");
+
+    shareButton.addEventListener("click", () => {
+        const wikiLink = document.getElementById("wiki-link").value.trim();
+        const shareUrlInput = document.getElementById("share-url");
+        const serverUrl = "https://globstory.it/";
+
+        if (wikiLink) {
+            const encodedWikiLink = encodeURIComponent(wikiLink);
+            shareUrlInput.value = `${serverUrl}?wiki=${encodedWikiLink}`;
+        } else {
+            shareUrlInput.value = "Please enter a valid Wikipedia link first.";
+        }
+
+        sharePopup.style.display = "flex";
+    });
+
+    const copyButton = document.getElementById("copy-button");
+    copyButton.addEventListener("click", () => {
+        const shareUrlInput = document.getElementById("share-url");
+        shareUrlInput.select();
+        document.execCommand("copy");
+        alert("Link copied to clipboard!");
+    });
+
+    // Close the Share popup
+    shareClose.addEventListener("click", () => {
+        sharePopup.style.display = "none";
+    });
+
+    // Close the popup when clicking outside the content
+    sharePopup.addEventListener("click", (event) => {
+        if (event.target === sharePopup) {
+            sharePopup.style.display = "none";
         }
     });
 });

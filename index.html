@@ -33,6 +33,7 @@
         <button id="year-plus-100">&gt;&gt;</button>
         <span id="year-indicator" style="margin-left: auto; font-weight: bold;">Year: 1924</span>
         <button id="help-button" class="help-button">Help</button>
+        <button id="share-button" class="share-button">Share</button>
     </div>
     <div id="help-popup" class="help-popup">
         <div class="help-popup-content">
@@ -59,6 +60,17 @@
                 </li>
             </ul>
             <p>Feel free to explore and let us know your suggestions—we’d love to hear your feedback to make this platform even better! <a href="https://docs.google.com/forms/d/e/1FAIpQLSccUsR4Rg2ETUKf92oZ1vQTlcPLMLtLvFFDvxKHeXdDWvkW-w/viewform?usp=sharing" target="_blank">Submit your feedback here</a>.</p>
+            <p>To share a Wikipedia link directly, use a URL like: <code>https://globstory.it/?wiki=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FExample</code></p>
+        </div>
+    </div>
+    <div id="share-popup" class="help-popup">
+        <div class="help-popup-content">
+            <span id="share-close" class="help-close">&times;</span>
+            <form id="share-form">
+                <label for="share-url">Shareable Link:</label>
+                <input type="text" id="share-url" readonly>
+                <button type="button" id="copy-button">Copy</button>
+            </form>
         </div>
     </div>
     <div class="container">
