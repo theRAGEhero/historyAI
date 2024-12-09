@@ -221,19 +221,23 @@ body {
 @media (max-width: 768px) {
     .container {
         flex-direction: column; /* Stack map and sidebar vertically */
-        height: calc(100vh - 50px); /* Adjust height considering the top bar */
+        height: calc(100vh - 60px); /* Adjusted to ensure space for topbar */
     }
 
     #map-container {
-        height: 50%; /* Map occupies top half */
-        width: 100%; /* Full width */
+        height: 50vh; /* Top half of the screen */
+        width: 100%;
+        border: 1px solid black;
+    }
+
+    #map-container iframe {
+        height: 100%; /* Ensure iframe fills its parent */
     }
 
     .sidebar {
-        height: 50%; /* Sidebar occupies bottom half */
-        width: 100%; /* Full width */
-        overflow-y: scroll; /* Allow scrolling for the sidebar */
-        padding: 10px;
+        height: 50vh; /* Bottom half of the screen */
+        width: 100%;
+        overflow-y: auto; /* Allows scrolling if needed */
     }
 
     .slider {
