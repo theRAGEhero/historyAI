@@ -198,7 +198,26 @@ document.addEventListener("DOMContentLoaded", () => {
     const shareClose = document.getElementById("share-close");
 
     shareButton.addEventListener("click", () => {
+        const wikiLink = document.getElementById("wiki-link").value.trim();
+        const shareUrlInput = document.getElementById("share-url");
+        const serverUrl = "http://0.0.0.0:8000/";
+
+        if (wikiLink) {
+            const encodedWikiLink = encodeURIComponent(wikiLink);
+            shareUrlInput.value = `${serverUrl}?wiki=${encodedWikiLink}`;
+        } else {
+            shareUrlInput.value = "Please enter a valid Wikipedia link first.";
+        }
+
         sharePopup.style.display = "flex";
+    });
+
+    const copyButton = document.getElementById("copy-button");
+    copyButton.addEventListener("click", () => {
+        const shareUrlInput = document.getElementById("share-url");
+        shareUrlInput.select();
+        document.execCommand("copy");
+        alert("Link copied to clipboard!");
     });
 
     // Close the Share popup
