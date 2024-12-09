@@ -187,20 +187,53 @@ body {
     align-items: center;
     justify-content: center;
 }
-@media (max-width: 768px) {
+/* CSS for Desktop View */
+@media (min-width: 769px) {
     .container {
-        flex-direction: column;
-        height: calc(100vh - 50px); /* Full height minus topbar */
+        display: flex;
+        flex-direction: row; /* Side-by-side layout for desktop */
+        height: calc(100vh - 50px); /* Adjust height considering the top bar */
     }
 
     #map-container {
-        height: 50%; /* Top half of the screen */
-        width: 100%; /* Ensure full width */
+        flex: 1 1 50%; /* Map takes 50% width */
+        position: sticky; 
+        top: 0; /* Map stays fixed as user scrolls */
+        height: 100vh; /* Full screen height */
+        overflow: hidden;
+    }
+
+    #map-container iframe {
+        height: 100%;
+        width: 100%;
     }
 
     .sidebar {
-        height: 50%; /* Bottom half of the screen */
-        width: 100%; /* Ensure full width */
+        flex: 1 1 50%; /* Sidebar takes the other 50% of width */
+        overflow-y: scroll; /* Enable scrolling */
+        height: 100vh; /* Same height as map */
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1); /* Adding divider shadow */
+        padding: 10px;
+    }
+}
+
+/* CSS for Mobile View */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Stack map and sidebar vertically */
+        height: calc(100vh - 50px); /* Adjust height considering the top bar */
+    }
+
+    #map-container {
+        height: 50%; /* Map occupies top half */
+        width: 100%; /* Full width */
+    }
+
+    .sidebar {
+        height: 50%; /* Sidebar occupies bottom half */
+        width: 100%; /* Full width */
+        overflow-y: scroll; /* Allow scrolling for the sidebar */
+        padding: 10px;
     }
 
     .slider {
