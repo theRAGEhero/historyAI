@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const yearInput = document.getElementById("year-input");
+    yearInput.value = 2024; // Set default year to 2024
     const yearForm = document.getElementById("year-form");
     const mapIframe = document.querySelector("#map-container iframe");
 
