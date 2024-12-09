@@ -21,8 +21,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // Update the iframe src with the saved position and new date
-        mapIframe.src = `https://embed.openhistoricalmap.org/#map=${mapZoom}/${mapLat}/${mapLon}&layers=O&date=${year}-12-08`;
+        // Save the current map state
+        const currentMapState = `map=${mapZoom}/${mapLat}/${mapLon}`;
+
+        // Update the iframe src with the saved state and new date
+        mapIframe.src = `https://embed.openhistoricalmap.org/#${currentMapState}&layers=O&date=${year}-12-08`;
 
         // Update the year indicator
         yearIndicator.textContent = `Year: ${year}`;
