@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         updateMapYear(year);
                     }
                 }
-            }, 500); // Trigger after 0.5 seconds
+            }, 1000); // Trigger after 1 second
         }
     });
 
