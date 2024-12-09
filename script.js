@@ -153,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const page = Object.values(data.query.pages)[0]; // Extract the first page object
             wikiContent.innerHTML = `
                 <h2>${page.title}</h2>
-                <p>${page.extract.replace(/\b([A-Z][a-z]+)\b/g, '<span data-country="$1">$1</span>')}</p>
+                <p>${page.extract.replace(/\b([A-Z][a-z]+)\b/g, '<span data-country="$1">$1</span>').replace(/\b(\d{1,4})\b/g, '<span data-year="$1">$1</span>')}</p>
                 <a href="https://en.wikipedia.org/wiki/${page.title}" target="_blank">Read more on Wikipedia</a>
             `;
         } catch (error) {
