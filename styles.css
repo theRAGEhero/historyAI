@@ -97,6 +97,11 @@ body {
     #year-indicator {
         display: none; /* Hide Year: nnnn on mobile */
     }
+
+    #share-button {
+        margin-left: 5px; /* Reduce padding between Share and Help buttons */
+        margin-right: 10px; /* Move Share button slightly to the left */
+    }
 }
 
 .help-close {
