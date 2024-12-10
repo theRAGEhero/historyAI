@@ -99,6 +99,11 @@ body {
     padding: 10px;
     background-color: #f1f1f1;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 .topbar button {
@@ -131,6 +136,8 @@ body {
     flex: 1;
     flex-direction: row;
     position: relative; /* For slider positioning */
+    margin-top: 50px; /* Adjust for fixed topbar height */
+    height: calc(100vh - 50px); /* Full height minus topbar */
 }
 
 .resizable-container {
@@ -145,12 +152,15 @@ body {
     height: 100%;
     border: 1px solid black;
     overflow: hidden;
+    position: sticky;
+    top: 0;
 }
 
 #map-container iframe {
     width: 100%;
     height: 100%;
     border: none;
+    display: block; /* Ensure it behaves as a block element */
 }
 
 .sidebar {
@@ -158,6 +168,7 @@ body {
     padding: 10px;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
+    height: 100%;
 }
 
 .slider {
@@ -175,4 +186,85 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+/* CSS for Desktop View */
+@media (min-width: 769px) {
+    .container {
+        display: flex;
+        flex-direction: row; /* Side-by-side layout for desktop */
+        height: calc(100vh - 50px); /* Adjust height considering the top bar */
+    }
+
+    #map-container {
+        flex: 1 1 50%; /* Map takes 50% width */
+        position: sticky; 
+        top: 0; /* Map stays fixed as user scrolls */
+        height: 100vh; /* Full screen height */
+        overflow: hidden;
+    }
+
+    #map-container iframe {
+        height: 100%;
+        width: 100%;
+    }
+
+    .sidebar {
+        flex: 1 1 50%; /* Sidebar takes the other 50% of width */
+        overflow-y: scroll; /* Enable scrolling */
+        height: 100vh; /* Same height as map */
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1); /* Adding divider shadow */
+        padding: 10px;
+    }
+}
+
+/* CSS for Mobile View */
+@media (max-width: 768px) {
+    body {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden; /* Prevent body from scrolling */
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        margin-top: 50px; /* Account for fixed top bar */
+        height: calc(100vh - 50px); /* Full viewport height minus top bar */
+        overflow: hidden; /* Prevent container from scrolling */
+    }
+
+    .resizable-container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    #map-container {
+        flex: 1; /* Take up top half */
+        height: 50%; /* Exactly half the screen height */
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+
+    #map-container iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    .sidebar {
+        flex: 1; /* Take up bottom half */
+        height: 50%; /* Exactly half the screen height */
+        width: 100%;
+        overflow-y: auto; /* Allow scrolling within sidebar */
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .slider {
+        display: none; /* Hide slider on mobile */
+    }
 }
