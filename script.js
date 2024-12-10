@@ -170,15 +170,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             // Fetch the Wikipedia article content using the language-specific API link format
-            const response = await fetch(`https://${langCode}.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=&titles=${pageTitle}&origin=*`);
+            const response = await fetch(`https://${langCode}.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&titles=${pageTitle}&origin=*`);
             if (!response.ok) throw new Error("Failed to fetch Wikipedia article");
 
             const data = await response.json();
             const page = Object.values(data.query.pages)[0]; // Extract the first page object
+            // Sanitize the extract to remove unwanted attributes
+            const sanitizedExtract = page.extract
+                .replace(/<([^>]+) data-mw-fallback-anchor="[^"]+"([^>]*)>/g, '<$1$2>') // Remove data-mw-fallback-anchor
+                .replace(/\b([A-Z][a-z]+)\b/g, '<span data-country="$1">$1</span>') // Highlight country names
+                .replace(/\b(\d{1,4})\b/g, '<span data-year="$1">$1</span>'); // Highlight years
+
             wikiContent.innerHTML = `
                 <h2>${page.title}</h2>
-                <p>${page.extract.replace(/\b([A-Z][a-z]+)\b/g, '<span data-country="$1">$1</span>').replace(/\b(\d{1,4})\b/g, '<span data-year="$1">$1</span>')}</p>
-                <a href="https://en.wikipedia.org/wiki/${page.title}" target="_blank">Read more on Wikipedia</a>
+                <p>${sanitizedExtract}</p>
             `;
         } catch (error) {
             wikiContent.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
