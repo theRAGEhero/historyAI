@@ -93,6 +93,10 @@ body {
         font-size: 12px;
         padding: 10px;
     }
+
+    #year-indicator {
+        display: none; /* Hide Year: nnnn on mobile */
+    }
 }
 
 .help-close {
