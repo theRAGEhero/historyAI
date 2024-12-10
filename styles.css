@@ -39,6 +39,18 @@ body {
     font-size: 14px;
 }
 
+#share-button {
+    padding: 8px 12px;
+    padding-right: 10px;
+    margin-left: 10px;
+    background-color: #007FFF; /* Azure color */
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
 .help-button:hover {
     background-color: #0056b3;
 }
