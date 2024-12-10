@@ -98,9 +98,13 @@ body {
         display: none; /* Hide Year: nnnn on mobile */
     }
 
+    #year-minus-100 {
+        margin-left: 2px; /* Reduce space to the left of << button */
+    }
+
     #share-button {
-        margin-left: 5px; /* Reduce padding between Share and Help buttons */
-        margin-right: 10px; /* Move Share button slightly to the left */
+        margin-left: 2px; /* Reduce space between Share and Help buttons */
+        margin-right: 20px; /* Add more space to the right of Share button */
     }
 }
 
