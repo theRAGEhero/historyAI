@@ -175,9 +175,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const data = await response.json();
             const page = Object.values(data.query.pages)[0]; // Extract the first page object
+            // Sanitize the extract to remove unwanted attributes
+            const sanitizedExtract = page.extract
+                .replace(/<([^>]+) data-mw-fallback-anchor="[^"]+"([^>]*)>/g, '<$1$2>') // Remove data-mw-fallback-anchor
+                .replace(/\b([A-Z][a-z]+)\b/g, '<span data-country="$1">$1</span>') // Highlight country names
+                .replace(/\b(\d{1,4})\b/g, '<span data-year="$1">$1</span>'); // Highlight years
+
             wikiContent.innerHTML = `
                 <h2>${page.title}</h2>
-                <p>${page.extract.replace(/\b([A-Z][a-z]+)\b/g, '<span data-country="$1">$1</span>').replace(/\b(\d{1,4})\b/g, '<span data-year="$1">$1</span>')}</p>
+                <p>${sanitizedExtract}</p>
             `;
         } catch (error) {
             wikiContent.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
