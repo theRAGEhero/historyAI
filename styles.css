@@ -9,11 +9,14 @@ body {
 .donation-section {
     margin-top: 20px;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+    gap: 15px; /* Equal spacing between buttons */
 }
 
 .donation-button {
     display: inline-block;
-    margin: 10px;
     padding: 10px 20px;
     background-color: #007FFF; /* Azure color */
     color: white;
@@ -22,6 +25,7 @@ body {
     font-size: 16px;
     font-weight: bold;
     transition: background-color 0.3s ease;
+    text-align: center;
 }
 
 .donation-button:hover {
