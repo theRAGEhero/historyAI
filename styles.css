@@ -39,6 +39,19 @@ body {
     font-size: 14px;
 }
 
+#share-button {
+    padding: 8px 12px;
+    padding-right: 10px;
+    margin-left: 10px;
+    margin-right: 15px;
+    background-color: #007FFF; /* Azure color */
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
 .help-button:hover {
     background-color: #0056b3;
 }
@@ -79,6 +92,19 @@ body {
     .help-popup-content {
         font-size: 12px;
         padding: 10px;
+    }
+
+    #year-indicator {
+        display: none; /* Hide Year: nnnn on mobile */
+    }
+
+    #year-minus-100 {
+        margin-left: 2px; /* Reduce space to the left of << button */
+    }
+
+    #share-button {
+        margin-left: 2px; /* Reduce space between Share and Help buttons */
+        margin-right: 20px; /* Add more space to the right of Share button */
     }
 }
 
