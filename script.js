@@ -65,18 +65,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const data = await response.json();
                 if (data.length > 0) {
-                    const { lat, lon } = data[0];
+                    const { lat, lon, type } = data[0];
 
-                    // Update the map iframe with the new coordinates
-                    const url = new URL(mapIframe.src);
-                    const hashParams = url.hash.split("&");
-                    let mapZoom = "6"; // Default zoom level
-                    hashParams.forEach(param => {
-                        if (param.startsWith("map=")) {
-                            mapZoom = param.split("=")[1].split("/")[0];
-                        }
-                    });
+                    // Determine zoom level based on addresstype
+                    const zoomLevels = {
+                        continent: 3,
+                        country: 5,
+                        state: 7,
+                        region: 7,
+                        county: 9,
+                        city: 11,
+                        town: 13,
+                        village: 15
+                    };
+                    const mapZoom = zoomLevels[type] || 6; // Default zoom level if type is not recognized
 
+                    // Update the map iframe with the new coordinates and zoom level
                     mapIframe.src = `https://embed.openhistoricalmap.org/#map=${mapZoom}/${lat}/${lon}&layers=O`;
                 }
             } catch (error) {
