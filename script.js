@@ -250,6 +250,21 @@ document.addEventListener("DOMContentLoaded", () => {
             searchResults.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
         }
     });
+    // Process instructional text for hover functionality
+    const processInstructionalText = () => {
+        const wikiContent = document.getElementById("wiki-content");
+        const contentHTML = wikiContent.innerHTML;
+
+        // Sanitize and process the instructional text
+        const processedHTML = contentHTML
+            .replace(/\b([A-Z][a-z]+)\b/g, '<span data-country="$1">$1</span>') // Highlight country names
+            .replace(/\b(\d{1,4})\b/g, '<span data-year="$1">$1</span>'); // Highlight years
+
+        wikiContent.innerHTML = processedHTML;
+    };
+
+    processInstructionalText();
+
     const urlParams = new URLSearchParams(window.location.search);
     const sharedWikiLink = urlParams.get("wiki"); // Extract the 'wiki' parameter
     if (sharedWikiLink) {
