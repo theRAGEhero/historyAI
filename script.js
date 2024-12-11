@@ -233,8 +233,10 @@ document.addEventListener("DOMContentLoaded", () => {
                             .replace(/\b(\d{1,4})\b/g, '<span data-year="$1">$1</span>'); // Highlight years
 
                         wikiContent.innerHTML = `
-                            <h2>${page.title}</h2>
-                            <p>${sanitizedExtract}</p>
+                            <div id="wiki-article">
+                                <h2>${page.title}</h2>
+                                <p>${sanitizedExtract}</p>
+                            </div>
                         `;
                     } catch (error) {
                         wikiContent.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;

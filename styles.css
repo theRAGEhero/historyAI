@@ -236,6 +236,15 @@ body {
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
     height: 100%;
+    box-sizing: border-box; /* Ensure padding is included in width/height */
+}
+
+#wiki-content {
+    max-width: 100%; /* Constrain content to fit within the sidebar */
+    overflow-wrap: break-word; /* Prevent long words from overflowing */
+    word-wrap: break-word; /* For older browsers */
+    box-sizing: border-box; /* Include padding and border in width calculations */
+}
 }
 
 .slider {
