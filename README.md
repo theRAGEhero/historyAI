@@ -1,22 +1,26 @@
-# historyAI
+# HistoryAI - [GlobStory.it](https://globstory.it)
 
-HistoryAI is an open-source platform that combines Digital Humanities and Artificial Intelligence to create an interactive learning experience for history enthusiasts, students, and researchers.
+**HistoryAI** is an open-source platform that brings together the power of Digital Humanities and Artificial Intelligence to create an engaging, interactive learning experience for history enthusiasts, students, and researchers.
 
-With HistoryAI, you can:
+### Key Features
 
-    Insert a Wikipedia link and track the geographical locations of historical events on an interactive map.
-    Hover over a country or nation to see real-time updates of the event, adjusted to the current year.
+- **Interactive Map**: Track the geographical locations of historical events in real time.  
+- **Wikipedia Integration**: Insert any Wikipedia link to visualize and explore historical events on a dynamic map.  
+- **Real-Time Updates**: Hover over countries or regions to see live updates of events, contextualized to the current year.  
 
-The platform aims to provide users with a dynamic, visually engaging way to explore and understand the context of historical events across the globe.
-Features
+### Why HistoryAI?
 
-    Interactive map with real-time geographical updates.
-    Simple Wikipedia link insertion for event tracking.
-    Hover functionality to view the geographical context of events.
+The platform offers a visually immersive way to explore historical contexts, making it easier to connect events to their geographical and temporal significance.
 
-Contributing
+### Contributing
 
-We welcome contributions from developers, historians, and anyone passionate about history and technology. Feel free to open issues, submit pull requests, or suggest new features.
-Get Involved
+We invite developers, historians, and tech enthusiasts to join us in shaping the future of HistoryAI.  
+- Report issues, submit pull requests, or suggest features on our GitHub.  
+- Help us enhance this open-source tool to bridge the gap between history and technology.  
 
-Check out the project at globstory.it and contribute to the evolution of HistoryAI!
+### Get Involved
+
+Explore the project on [GlobStory.it](https://globstory.it) and become part of the HistoryAI community!  
+
+- Support us via [PayPal](https://www.paypal.com/paypalme/9minuti) or [Buy Me a Coffee](https://buymeacoffee.com/9minuti).  
+- Join the discussion on our [Telegram Group](https://t.me/+p6Lbmlri7XxiMDg0).
