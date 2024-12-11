@@ -198,6 +198,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const query = document.getElementById("wiki-search").value.trim();
 
         try {
+            // Clear the Wikipedia content box
+            wikiContent.innerHTML = "";
+
             // Query Wikipedia's search API
             const response = await fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=${encodeURIComponent(query)}&origin=*`);
             if (!response.ok) throw new Error("Failed to fetch search results");
