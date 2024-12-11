@@ -245,7 +245,6 @@ body {
     word-wrap: break-word; /* For older browsers */
     box-sizing: border-box; /* Include padding and border in width calculations */
 }
-}
 
 .slider {
     width: 5px;
