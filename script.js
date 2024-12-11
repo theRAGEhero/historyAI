@@ -202,7 +202,11 @@ document.addEventListener("DOMContentLoaded", () => {
             wikiContent.innerHTML = "";
 
             // Query Wikipedia's search API
-            const response = await fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=${encodeURIComponent(query)}&origin=*`);
+            const response = await fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=${encodeURIComponent(query)}&origin=*`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
             if (!response.ok) throw new Error("Failed to fetch search results");
 
             const data = await response.json();
