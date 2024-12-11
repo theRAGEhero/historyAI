@@ -247,6 +247,28 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Link copied to clipboard!");
     });
 
+    // Handle Embedding Link generation and copying
+    const embedCopyButton = document.getElementById("embed-copy-button");
+    embedCopyButton.addEventListener("click", () => {
+        const embedCodeInput = document.getElementById("embed-code");
+        embedCodeInput.select();
+        document.execCommand("copy");
+        alert("Embedding link copied to clipboard!");
+    });
+
+    shareButton.addEventListener("click", () => {
+        const wikiLink = document.getElementById("wiki-link").value.trim();
+        const embedCodeInput = document.getElementById("embed-code");
+        const serverUrl = "https://globstory.it/";
+
+        if (wikiLink) {
+            const encodedWikiLink = encodeURIComponent(wikiLink);
+            embedCodeInput.value = `<iframe src="${serverUrl}?wiki=${encodedWikiLink}" width="800" height="600" frameborder="0"></iframe>`;
+        } else {
+            embedCodeInput.value = "Please enter a valid Wikipedia link first.";
+        }
+    });
+
     // Close the Share popup
     shareClose.addEventListener("click", () => {
         sharePopup.style.display = "none";
