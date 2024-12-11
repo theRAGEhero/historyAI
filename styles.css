@@ -32,7 +32,7 @@ body {
     background-color: #0056b3; /* Darker blue on hover */
 }
 
-.help-button {
+.topbar .help-button {
     padding: 8px 12px;
     margin-left: 10px;
     background-color: #FFA500; /* Orange color */
