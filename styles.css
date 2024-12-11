@@ -244,6 +244,7 @@ body {
     overflow-wrap: break-word; /* Prevent long words from overflowing */
     word-wrap: break-word; /* For older browsers */
     box-sizing: border-box; /* Include padding and border in width calculations */
+    margin-top: 20px; /* Add spacing below the search form */
 }
 
 .slider {
