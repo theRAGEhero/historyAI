@@ -245,6 +245,7 @@ body {
     word-wrap: break-word; /* For older browsers */
     box-sizing: border-box; /* Include padding and border in width calculations */
     margin-top: 20px; /* Add spacing below the search form */
+    padding-bottom: 30px; /* Ensure text is always visible with extra padding */
 }
 
 .slider {
