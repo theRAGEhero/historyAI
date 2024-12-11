@@ -73,6 +73,43 @@ body {
     z-index: 1000;
 }
 
+#share-popup .help-popup-content {
+    max-width: 600px;
+    width: 90%; /* Adjust width for responsiveness */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#share-popup form {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    gap: 10px; /* Add spacing between elements */
+}
+
+#share-popup input[type="text"] {
+    width: 100%; /* Full width for inputs */
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#share-popup button {
+    align-self: flex-start; /* Align buttons to the left */
+    padding: 8px 12px;
+    font-size: 14px;
+    background-color: #007FFF; /* Azure color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#share-popup button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
 .help-popup-content {
     background-color: white;
     padding: 20px;
