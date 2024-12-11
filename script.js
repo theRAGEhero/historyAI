@@ -212,44 +212,48 @@ document.addEventListener("DOMContentLoaded", () => {
             const data = await response.json();
             const results = data.query.search;
 
-            // Display search results
-            searchResults.innerHTML = results.map(result => `
-                <div class="search-result" data-title="${result.title}">
-                    <strong>${result.title}</strong>
-                    <p>${result.snippet}...</p>
-                </div>
-            `).join("");
+            if (results.length > 0) {
+                // Display search results
+                searchResults.innerHTML = results.map(result => `
+                    <div class="search-result" data-title="${result.title}">
+                        <strong>${result.title}</strong>
+                        <p>${result.snippet}...</p>
+                    </div>
+                `).join("");
 
-            // Add click event listeners to search results
-            document.querySelectorAll(".search-result").forEach(result => {
-                result.addEventListener("click", async () => {
-                    const title = result.dataset.title;
+                // Add click event listeners to search results
+                document.querySelectorAll(".search-result").forEach(result => {
+                    result.addEventListener("click", async () => {
+                        const title = result.dataset.title;
 
-                    try {
-                        // Fetch the selected Wikipedia page content
-                        const pageResponse = await fetch(`https://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&titles=${encodeURIComponent(title)}&origin=*`);
-                        if (!pageResponse.ok) throw new Error("Failed to fetch Wikipedia article");
+                        try {
+                            // Fetch the selected Wikipedia page content
+                            const pageResponse = await fetch(`https://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&titles=${encodeURIComponent(title)}&origin=*`);
+                            if (!pageResponse.ok) throw new Error("Failed to fetch Wikipedia article");
 
-                        const pageData = await pageResponse.json();
-                        const page = Object.values(pageData.query.pages)[0];
+                            const pageData = await pageResponse.json();
+                            const page = Object.values(pageData.query.pages)[0];
 
-                        // Sanitize and display the content in the Wikipedia box
-                        const sanitizedExtract = page.extract
-                            .replace(/<([^>]+) data-mw-fallback-anchor="[^"]+"([^>]*)>/g, '<$1$2>') // Remove data-mw-fallback-anchor
-                            .replace(/\b([A-Z][a-z]+)\b/g, '<span data-country="$1">$1</span>') // Highlight country names
-                            .replace(/\b(\d{1,4})\b/g, '<span data-year="$1">$1</span>'); // Highlight years
+                            // Sanitize and display the content in the Wikipedia box
+                            const sanitizedExtract = page.extract
+                                .replace(/<([^>]+) data-mw-fallback-anchor="[^"]+"([^>]*)>/g, '<$1$2>') // Remove data-mw-fallback-anchor
+                                .replace(/\b([A-Z][a-z]+)\b/g, '<span data-country="$1">$1</span>') // Highlight country names
+                                .replace(/\b(\d{1,4})\b/g, '<span data-year="$1">$1</span>'); // Highlight years
 
-                        wikiContent.innerHTML = `
-                            <div id="wiki-article">
-                                <h2>${page.title}</h2>
-                                <p>${sanitizedExtract}</p>
-                            </div>
-                        `;
-                    } catch (error) {
-                        wikiContent.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
-                    }
+                            wikiContent.innerHTML = `
+                                <div id="wiki-article">
+                                    <h2>${page.title}</h2>
+                                    <p>${sanitizedExtract}</p>
+                                </div>
+                            `;
+                        } catch (error) {
+                            wikiContent.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+                        }
+                    });
                 });
-            });
+            } else {
+                searchResults.innerHTML = `<p style="color: red;">No results found. Please try a different query.</p>`;
+            }
         } catch (error) {
             searchResults.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
         }
