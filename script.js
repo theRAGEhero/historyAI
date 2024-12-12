@@ -157,6 +157,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Handle Wikipedia form submission
     const form = document.getElementById("wiki-form");
+    const searchForm = document.getElementById("wiki-search-form");
+    const searchResults = document.getElementById("wiki-search-results");
     const wikiContent = document.getElementById("wiki-content");
 
     form.addEventListener("submit", async (event) => {
@@ -190,7 +192,87 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Check for shareable link in the URL
+    // Handle Wikipedia search form submission
+    searchForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const query = document.getElementById("wiki-search").value.trim();
+
+        try {
+            // Clear the Wikipedia content box
+            wikiContent.innerHTML = "";
+
+            // Query Wikipedia's search API
+            const response = await fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=${encodeURIComponent(query)}&origin=*`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (!response.ok) throw new Error("Failed to fetch search results");
+
+            const data = await response.json();
+            const results = data.query.search;
+
+            if (results.length > 0) {
+                // Display search results
+                searchResults.innerHTML = results.map(result => `
+                    <div class="search-result" data-title="${result.title}">
+                        <strong style="color: blue; cursor: pointer;">${result.title}</strong>
+                        <p>${result.snippet}...</p>
+                    </div>
+                `).join("");
+
+                // Add click event listeners to search results
+                document.querySelectorAll(".search-result").forEach(result => {
+                    result.addEventListener("click", async () => {
+                        const title = result.dataset.title;
+
+                        try {
+                            // Fetch the selected Wikipedia page content
+                            const pageResponse = await fetch(`https://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&titles=${encodeURIComponent(title)}&origin=*`);
+                            if (!pageResponse.ok) throw new Error("Failed to fetch Wikipedia article");
+
+                            const pageData = await pageResponse.json();
+                            const page = Object.values(pageData.query.pages)[0];
+
+                            // Sanitize and display the content in the Wikipedia box
+                            const sanitizedExtract = page.extract
+                                .replace(/<([^>]+) data-mw-fallback-anchor="[^"]+"([^>]*)>/g, '<$1$2>') // Remove data-mw-fallback-anchor
+                                .replace(/\b([A-Z][a-z]+)\b/g, '<span data-country="$1">$1</span>') // Highlight country names
+                                .replace(/\b(\d{1,4})\b/g, '<span data-year="$1">$1</span>'); // Highlight years
+
+                            wikiContent.innerHTML = `
+                                <div id="wiki-article">
+                                    <h2>${page.title}</h2>
+                                    <p>${sanitizedExtract}</p>
+                                </div>
+                            `;
+                        } catch (error) {
+                            wikiContent.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+                        }
+                    });
+                });
+            } else {
+                searchResults.innerHTML = `<p style="color: red;">No results found. Please try a different query.</p>`;
+            }
+        } catch (error) {
+            searchResults.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+        }
+    });
+    // Process instructional text for hover functionality
+    const processInstructionalText = () => {
+        const wikiContent = document.getElementById("wiki-content");
+        const contentHTML = wikiContent.innerHTML;
+
+        // Sanitize and process the instructional text
+        const processedHTML = contentHTML
+            .replace(/\b([A-Z][a-z]+)\b/g, '<span data-country="$1">$1</span>') // Highlight country names
+            .replace(/\b(\d{1,4})\b/g, '<span data-year="$1">$1</span>'); // Highlight years
+
+        wikiContent.innerHTML = processedHTML;
+    };
+
+    processInstructionalText();
+
     const urlParams = new URLSearchParams(window.location.search);
     const sharedWikiLink = urlParams.get("wiki"); // Extract the 'wiki' parameter
     if (sharedWikiLink) {
