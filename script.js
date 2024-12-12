@@ -216,7 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Display search results
                 searchResults.innerHTML = results.map(result => `
                     <div class="search-result" data-title="${result.title}">
-                        <strong>${result.title}</strong>
+                        <strong style="color: blue; cursor: pointer;">${result.title}</strong>
                         <p>${result.snippet}...</p>
                     </div>
                 `).join("");
