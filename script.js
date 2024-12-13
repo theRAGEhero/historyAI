@@ -208,8 +208,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 const docText = await response.text();
                 // Sanitize and process the text to apply hover functionality
                 const sanitizedText = docText
-                    .replace(/\b([A-Z][a-z]+)\b/g, '<span data-country="$1">$1</span>') // Highlight country names
-                    .replace(/\b(\d{1,4})\b/g, '<span data-year="$1">$1</span>'); // Highlight years
+                    .split("\n") // Split text into lines
+                    .map(line => line.trim()) // Trim each line
+                    .filter(line => line.length > 0) // Remove empty lines
+                    .map(line => `<p>${line
+                        .replace(/\b([A-Z][a-z]+)\b/g, '<span data-country="$1">$1</span>') // Highlight country names
+                        .replace(/\b(\d{1,4})\b/g, '<span data-year="$1">$1</span>') // Highlight years
+                    }</p>`) // Wrap each line in <p> tags
+                    .join(""); // Join all lines back together
 
                 wikiContent.innerHTML = `
                     <h2>Google Doc Content</h2>
