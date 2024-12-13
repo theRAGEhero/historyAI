@@ -165,30 +165,61 @@ document.addEventListener("DOMContentLoaded", () => {
         event.preventDefault();
         const wikiLink = document.getElementById("wiki-link").value.trim();
 
-        // Extract the language code and page title from the link
-        const urlParts = new URL(wikiLink);
-        const langCode = urlParts.hostname.split(".")[0]; // Extract language code from the hostname
-        const pageTitle = urlParts.pathname.split("/").pop();
+        if (wikiLink.includes("wikipedia.org")) {
+            // Handle Wikipedia link
+            const urlParts = new URL(wikiLink);
+            const langCode = urlParts.hostname.split(".")[0]; // Extract language code from the hostname
+            const pageTitle = urlParts.pathname.split("/").pop();
 
-        try {
-            // Fetch the Wikipedia article content using the language-specific API link format
-            const response = await fetch(`https://${langCode}.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&titles=${pageTitle}&origin=*`);
-            if (!response.ok) throw new Error("Failed to fetch Wikipedia article");
+            try {
+                // Fetch the Wikipedia article content using the language-specific API link format
+                const response = await fetch(`https://${langCode}.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&titles=${pageTitle}&origin=*`);
+                if (!response.ok) throw new Error("Failed to fetch Wikipedia article");
 
-            const data = await response.json();
-            const page = Object.values(data.query.pages)[0]; // Extract the first page object
-            // Sanitize the extract to remove unwanted attributes
-            const sanitizedExtract = page.extract
-                .replace(/<([^>]+) data-mw-fallback-anchor="[^"]+"([^>]*)>/g, '<$1$2>') // Remove data-mw-fallback-anchor
-                .replace(/\b([A-Z][a-z]+)\b/g, '<span data-country="$1">$1</span>') // Highlight country names
-                .replace(/\b(\d{1,4})\b/g, '<span data-year="$1">$1</span>'); // Highlight years
+                const data = await response.json();
+                const page = Object.values(data.query.pages)[0]; // Extract the first page object
+                // Sanitize the extract to remove unwanted attributes
+                const sanitizedExtract = page.extract
+                    .replace(/<([^>]+) data-mw-fallback-anchor="[^"]+"([^>]*)>/g, '<$1$2>') // Remove data-mw-fallback-anchor
+                    .replace(/\b([A-Z][a-z]+)\b/g, '<span data-country="$1">$1</span>') // Highlight country names
+                    .replace(/\b(\d{1,4})\b/g, '<span data-year="$1">$1</span>'); // Highlight years
 
-            wikiContent.innerHTML = `
-                <h2>${page.title}</h2>
-                <p>${sanitizedExtract}</p>
-            `;
-        } catch (error) {
-            wikiContent.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+                wikiContent.innerHTML = `
+                    <h2>${page.title}</h2>
+                    <p>${sanitizedExtract}</p>
+                `;
+            } catch (error) {
+                wikiContent.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        } else if (wikiLink.includes("docs.google.com/document")) {
+            // Handle Google Doc link
+            const docIdMatch = wikiLink.match(/\/d\/([a-zA-Z0-9-_]+)/);
+            if (!docIdMatch) {
+                wikiContent.innerHTML = `<p style="color: red;">Error: Invalid Google Doc link.</p>`;
+                return;
+            }
+
+            const docId = docIdMatch[1];
+            try {
+                // Fetch the Google Doc content using the export API
+                const response = await fetch(`https://docs.google.com/document/d/${docId}/export?format=txt`);
+                if (!response.ok) throw new Error("Failed to fetch Google Doc content");
+
+                const docText = await response.text();
+                // Sanitize and process the text to apply hover functionality
+                const sanitizedText = docText
+                    .replace(/\b([A-Z][a-z]+)\b/g, '<span data-country="$1">$1</span>') // Highlight country names
+                    .replace(/\b(\d{1,4})\b/g, '<span data-year="$1">$1</span>'); // Highlight years
+
+                wikiContent.innerHTML = `
+                    <h2>Google Doc Content</h2>
+                    <p>${sanitizedText}</p>
+                `;
+            } catch (error) {
+                wikiContent.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        } else {
+            wikiContent.innerHTML = `<p style="color: red;">Error: Unsupported link type. Please provide a Wikipedia or Google Doc link.</p>`;
         }
     });
 
