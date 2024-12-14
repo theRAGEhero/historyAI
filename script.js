@@ -399,4 +399,21 @@ document.addEventListener("DOMContentLoaded", () => {
             sharePopup.style.display = "none";
         }
     });
+    const welcomePopup = document.getElementById("welcome-popup");
+    const popupClose = document.getElementById("popup-close");
+
+    // Show the popup when the page loads
+    welcomePopup.style.display = "flex";
+
+    // Close the popup when the close button is clicked
+    popupClose.addEventListener("click", () => {
+        welcomePopup.style.display = "none";
+    });
+
+    // Close the popup when clicking outside the content
+    welcomePopup.addEventListener("click", (event) => {
+        if (event.target === welcomePopup) {
+            welcomePopup.style.display = "none";
+        }
+    });
 });
