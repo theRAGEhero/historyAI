@@ -247,14 +247,19 @@ document.addEventListener("DOMContentLoaded", () => {
             const fileContent = e.target.result;
 
             if (file.name.endsWith(".md")) {
-                // Render Markdown content using marked library
-                const renderedContent = marked.parse(fileContent);
+                try {
+                    // Render Markdown content using marked library
+                    const renderedContent = marked.parse(fileContent);
 
-                // Display the rendered Markdown content
-                wikiContent.innerHTML = `
-                    <h2>Uploaded Markdown Content</h2>
-                    <div>${renderedContent}</div>
-                `;
+                    // Display the rendered Markdown content
+                    wikiContent.innerHTML = `
+                        <h2>Uploaded Markdown Content</h2>
+                        <div>${renderedContent}</div>
+                    `;
+                } catch (error) {
+                    console.error("Error rendering Markdown:", error);
+                    wikiContent.innerHTML = `<p style="color: red;">Error: Unable to render Markdown content.</p>`;
+                }
             } else {
                 // Sanitize and process the file content while preserving layout
                 const sanitizedContent = fileContent
