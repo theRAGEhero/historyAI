@@ -229,6 +229,39 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // Handle file upload form submission
+    const uploadForm = document.getElementById("upload-form");
+    const fileUpload = document.getElementById("file-upload");
+
+    uploadForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const file = fileUpload.files[0];
+        if (!file) {
+            alert("Please select a file to upload.");
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const fileContent = e.target.result;
+
+            // Sanitize and process the file content
+            const sanitizedContent = fileContent
+                .replace(/\b([A-Z][a-z]+)\b/g, '<span data-country="$1">$1</span>') // Highlight country names
+                .replace(/\b(\d{1,4})\b/g, '<span data-year="$1">$1</span>'); // Highlight years
+
+            // Display the processed content in the Wikipedia box
+            wikiContent.innerHTML = `
+                <h2>Uploaded File Content</h2>
+                <p>${sanitizedContent}</p>
+            `;
+        };
+
+        // Read the file as text
+        reader.readAsText(file);
+    });
+
     // Handle Wikipedia search form submission
     searchForm.addEventListener("submit", async (event) => {
         event.preventDefault();
