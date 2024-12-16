@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GlobStory.it</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="script.js" defer></script>
     <!-- Matomo -->
     <script>
@@ -108,8 +109,8 @@
             <div class="slider" id="slider"></div>
             <div class="sidebar">
             <form id="wiki-form">
-                <label for="wiki-link">Wikipedia Link:</label>
-                <input type="text" id="wiki-link" placeholder="Enter Wikipedia link" required>
+                <label for="wiki-link">Wikipedia or Google Doc Link:</label>
+                <input type="text" id="wiki-link" placeholder="Enter Wikipedia or Google Doc link" required>
                 <button type="submit">OK</button>
                 <p>E.g. https://en.wikipedia.org/wiki/World_War_II</p>
             </form>
@@ -117,6 +118,11 @@
                 <label for="wiki-search">Search on Wiki:</label>
                 <input type="text" id="wiki-search" placeholder="Enter search query" required>
                 <button type="submit">Search</button>
+            </form>
+            <form id="upload-form" enctype="multipart/form-data">
+                <label for="file-upload">Upload File:</label>
+                <input type="file" id="file-upload" accept=".txt,.md" required>
+                <button type="submit">OK</button>
             </form>
             <div id="wiki-content">
                 <h3 style="color: #FFA500;">Instructions: Hover your mouse/finger on the highlighted text (<span style="background-color: lightgreen;">years</span> and <span style="background-color: yellow;">places</span>) and see the magic happen.</h3>
@@ -130,5 +136,18 @@
     <div class="bottombar">
         <!-- Add any content for the bottom bar here -->
     </div>
+<div id="welcome-popup" class="popup">
+    <div class="popup-content">
+        <span id="popup-close" class="popup-close">&times;</span>
+        <h2>Instructions:</h2>
+        <p>Hover your mouse/finger on the highlighted text (<span style="background-color: lightgreen;">years</span> and <span style="background-color: yellow;">places</span>) and the map will update.</p>
+        <p>Search on Wikipedia, or add your own text.</p>
+        <ul>
+            <li>Bugs</li>
+            <li>Ideas</li>
+            <li>Donation</li>
+        </ul>
+    </div>
+</div>
 </body>
 </html>

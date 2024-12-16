@@ -165,31 +165,123 @@ document.addEventListener("DOMContentLoaded", () => {
         event.preventDefault();
         const wikiLink = document.getElementById("wiki-link").value.trim();
 
-        // Extract the language code and page title from the link
-        const urlParts = new URL(wikiLink);
-        const langCode = urlParts.hostname.split(".")[0]; // Extract language code from the hostname
-        const pageTitle = urlParts.pathname.split("/").pop();
+        if (wikiLink.includes("wikipedia.org")) {
+            // Handle Wikipedia link
+            const urlParts = new URL(wikiLink);
+            const langCode = urlParts.hostname.split(".")[0]; // Extract language code from the hostname
+            const pageTitle = urlParts.pathname.split("/").pop();
 
-        try {
-            // Fetch the Wikipedia article content using the language-specific API link format
-            const response = await fetch(`https://${langCode}.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&titles=${pageTitle}&origin=*`);
-            if (!response.ok) throw new Error("Failed to fetch Wikipedia article");
+            try {
+                // Fetch the Wikipedia article content using the language-specific API link format
+                const response = await fetch(`https://${langCode}.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&titles=${pageTitle}&origin=*`);
+                if (!response.ok) throw new Error("Failed to fetch Wikipedia article");
 
-            const data = await response.json();
-            const page = Object.values(data.query.pages)[0]; // Extract the first page object
-            // Sanitize the extract to remove unwanted attributes
-            const sanitizedExtract = page.extract
-                .replace(/<([^>]+) data-mw-fallback-anchor="[^"]+"([^>]*)>/g, '<$1$2>') // Remove data-mw-fallback-anchor
-                .replace(/\b([A-Z][a-z]+)\b/g, '<span data-country="$1">$1</span>') // Highlight country names
-                .replace(/\b(\d{1,4})\b/g, '<span data-year="$1">$1</span>'); // Highlight years
+                const data = await response.json();
+                const page = Object.values(data.query.pages)[0]; // Extract the first page object
+                // Sanitize the extract to remove unwanted attributes
+                const sanitizedExtract = page.extract
+                    .replace(/<([^>]+) data-mw-fallback-anchor="[^"]+"([^>]*)>/g, '<$1$2>') // Remove data-mw-fallback-anchor
+                    .replace(/\b([A-Z][a-z]+)\b/g, '<span data-country="$1">$1</span>') // Highlight country names
+                    .replace(/\b(\d{1,4})\b/g, '<span data-year="$1">$1</span>'); // Highlight years
 
-            wikiContent.innerHTML = `
-                <h2>${page.title}</h2>
-                <p>${sanitizedExtract}</p>
-            `;
-        } catch (error) {
-            wikiContent.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+                wikiContent.innerHTML = `
+                    <h2>${page.title}</h2>
+                    <p>${sanitizedExtract}</p>
+                `;
+            } catch (error) {
+                wikiContent.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        } else if (wikiLink.includes("docs.google.com/document")) {
+            // Handle Google Doc link
+            const docIdMatch = wikiLink.match(/\/d\/([a-zA-Z0-9-_]+)/);
+            if (!docIdMatch) {
+                wikiContent.innerHTML = `<p style="color: red;">Error: Invalid Google Doc link.</p>`;
+                return;
+            }
+
+            const docId = docIdMatch[1];
+            try {
+                // Fetch the Google Doc content using the export API
+                const response = await fetch(`https://docs.google.com/document/d/${docId}/export?format=txt`);
+                if (!response.ok) throw new Error("Failed to fetch Google Doc content");
+
+                const docText = await response.text();
+                // Sanitize and process the text to apply hover functionality
+                const sanitizedText = docText
+                    .split("\n") // Split text into lines
+                    .map(line => line.trim()) // Trim each line
+                    .filter(line => line.length > 0) // Remove empty lines
+                    .map(line => `<p>${line
+                        .replace(/\b([A-Z][a-z]+)\b/g, '<span data-country="$1">$1</span>') // Highlight country names
+                        .replace(/\b(\d{1,4})\b/g, '<span data-year="$1">$1</span>') // Highlight years
+                    }</p>`) // Wrap each line in <p> tags
+                    .join(""); // Join all lines back together
+
+                wikiContent.innerHTML = `
+                    <h2>Google Doc Content</h2>
+                    <p>${sanitizedText}</p>
+                `;
+            } catch (error) {
+                wikiContent.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        } else {
+            wikiContent.innerHTML = `<p style="color: red;">Error: Unsupported link type. Please provide a Wikipedia or Google Doc link.</p>`;
         }
+    });
+
+    // Handle file upload form submission
+    const uploadForm = document.getElementById("upload-form");
+    const fileUpload = document.getElementById("file-upload");
+
+    uploadForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const file = fileUpload.files[0];
+        if (!file) {
+            alert("Please select a file to upload.");
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const fileContent = e.target.result;
+
+            if (file.name.endsWith(".md")) {
+                try {
+                    // Render Markdown content using marked library
+                    const renderedContent = marked.parse(fileContent);
+
+                    // Display the rendered Markdown content
+                    wikiContent.innerHTML = `
+                        <h2>Uploaded Markdown Content</h2>
+                        <div>${renderedContent}</div>
+                    `;
+                    processInstructionalText(); // Reapply hover functionality
+                } catch (error) {
+                    console.error("Error rendering Markdown:", error);
+                    wikiContent.innerHTML = `<p style="color: red;">Error: Unable to render Markdown content.</p>`;
+                }
+            } else {
+                // Sanitize and process the file content while preserving layout
+                const sanitizedContent = fileContent
+                    .split("\n") // Split text into lines
+                    .map(line => line.trim()) // Trim each line
+                    .map(line => line
+                        .replace(/\b([A-Z][a-z]+)\b/g, '<span data-country="$1">$1</span>') // Highlight country names
+                        .replace(/\b(\d{1,4})\b/g, '<span data-year="$1">$1</span>') // Highlight years
+                    )
+                    .join("<br>"); // Join lines with <br> to preserve layout
+
+                // Display the processed content in the Wikipedia box
+                wikiContent.innerHTML = `
+                    <h2>Uploaded File Content</h2>
+                    <div>${sanitizedContent}</div>
+                `;
+            }
+        };
+
+        // Read the file as text
+        reader.readAsText(file);
     });
 
     // Handle Wikipedia search form submission
@@ -360,6 +452,23 @@ document.addEventListener("DOMContentLoaded", () => {
     sharePopup.addEventListener("click", (event) => {
         if (event.target === sharePopup) {
             sharePopup.style.display = "none";
+        }
+    });
+    const welcomePopup = document.getElementById("welcome-popup");
+    const popupClose = document.getElementById("popup-close");
+
+    // Show the popup when the page loads
+    welcomePopup.style.display = "flex";
+
+    // Close the popup when the close button is clicked
+    popupClose.addEventListener("click", () => {
+        welcomePopup.style.display = "none";
+    });
+
+    // Close the popup when clicking outside the content
+    welcomePopup.addEventListener("click", (event) => {
+        if (event.target === welcomePopup) {
+            welcomePopup.style.display = "none";
         }
     });
 });
