@@ -246,21 +246,32 @@ document.addEventListener("DOMContentLoaded", () => {
         reader.onload = (e) => {
             const fileContent = e.target.result;
 
-            // Sanitize and process the file content while preserving layout
-            const sanitizedContent = fileContent
-                .split("\n") // Split text into lines
-                .map(line => line.trim()) // Trim each line
-                .map(line => line
-                    .replace(/\b([A-Z][a-z]+)\b/g, '<span data-country="$1">$1</span>') // Highlight country names
-                    .replace(/\b(\d{1,4})\b/g, '<span data-year="$1">$1</span>') // Highlight years
-                )
-                .join("<br>"); // Join lines with <br> to preserve layout
+            if (file.name.endsWith(".md")) {
+                // Render Markdown content using marked library
+                const renderedContent = marked.parse(fileContent);
 
-            // Display the processed content in the Wikipedia box
-            wikiContent.innerHTML = `
-                <h2>Uploaded File Content</h2>
-                <div>${sanitizedContent}</div>
-            `;
+                // Display the rendered Markdown content
+                wikiContent.innerHTML = `
+                    <h2>Uploaded Markdown Content</h2>
+                    <div>${renderedContent}</div>
+                `;
+            } else {
+                // Sanitize and process the file content while preserving layout
+                const sanitizedContent = fileContent
+                    .split("\n") // Split text into lines
+                    .map(line => line.trim()) // Trim each line
+                    .map(line => line
+                        .replace(/\b([A-Z][a-z]+)\b/g, '<span data-country="$1">$1</span>') // Highlight country names
+                        .replace(/\b(\d{1,4})\b/g, '<span data-year="$1">$1</span>') // Highlight years
+                    )
+                    .join("<br>"); // Join lines with <br> to preserve layout
+
+                // Display the processed content in the Wikipedia box
+                wikiContent.innerHTML = `
+                    <h2>Uploaded File Content</h2>
+                    <div>${sanitizedContent}</div>
+                `;
+            }
         };
 
         // Read the file as text
