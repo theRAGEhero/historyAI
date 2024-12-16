@@ -256,6 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <h2>Uploaded Markdown Content</h2>
                         <div>${renderedContent}</div>
                     `;
+                    processInstructionalText(); // Reapply hover functionality
                 } catch (error) {
                     console.error("Error rendering Markdown:", error);
                     wikiContent.innerHTML = `<p style="color: red;">Error: Unable to render Markdown content.</p>`;
