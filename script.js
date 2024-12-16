@@ -246,15 +246,20 @@ document.addEventListener("DOMContentLoaded", () => {
         reader.onload = (e) => {
             const fileContent = e.target.result;
 
-            // Sanitize and process the file content
+            // Sanitize and process the file content while preserving layout
             const sanitizedContent = fileContent
-                .replace(/\b([A-Z][a-z]+)\b/g, '<span data-country="$1">$1</span>') // Highlight country names
-                .replace(/\b(\d{1,4})\b/g, '<span data-year="$1">$1</span>'); // Highlight years
+                .split("\n") // Split text into lines
+                .map(line => line.trim()) // Trim each line
+                .map(line => line
+                    .replace(/\b([A-Z][a-z]+)\b/g, '<span data-country="$1">$1</span>') // Highlight country names
+                    .replace(/\b(\d{1,4})\b/g, '<span data-year="$1">$1</span>') // Highlight years
+                )
+                .join("<br>"); // Join lines with <br> to preserve layout
 
             // Display the processed content in the Wikipedia box
             wikiContent.innerHTML = `
                 <h2>Uploaded File Content</h2>
-                <p>${sanitizedContent}</p>
+                <div>${sanitizedContent}</div>
             `;
         };
 
