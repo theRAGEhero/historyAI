@@ -30,16 +30,23 @@ body {
     font-size: 16px;
     line-height: 1.5;
     overflow: auto; /* Add scroll if content overflows */
+    position: relative; /* Ensure close button is inside the popup */
+}
+
+.popup-content iframe {
+    padding: 0.5cm; /* Add light padding around the video */
+    box-sizing: border-box; /* Include padding in the element's dimensions */
 }
 
 .popup-close {
     position: absolute;
     top: 10px;
-    right: 20px;
+    right: 10px; /* Adjust to ensure it's inside the popup area */
     font-size: 24px;
     font-weight: bold;
     color: #333;
     cursor: pointer;
+    z-index: 10; /* Ensure it stays above other content */
 }
 
 .donation-section {
